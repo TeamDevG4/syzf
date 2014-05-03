@@ -8,11 +8,8 @@ package org.group4.ui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.group4.datechooser.DateChooser;
 import org.group4.util.Context;
 
 /**
@@ -40,28 +37,9 @@ public class MyStepsUI extends javax.swing.JPanel {
 
         buttonPanel = new javax.swing.JPanel();
         chartPanel = new javax.swing.JPanel();
-        chooseStart = new javax.swing.JButton();
-        chooseEnd = new javax.swing.JButton();
-
-        chooseStart.setText("点击此按钮以选择开始时间");
-        chooseStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseStartActionPerformed(evt);
-            }
-        });
-
-        chooseEnd.setText("点击此按钮以选择结束时间");
-        chooseEnd.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseEndActionPerformed(evt);
-            }
-        });
 
         setLayout(new BorderLayout());
         buttonPanel.setLayout(new GridLayout(1,2));
-        buttonPanel.add(chooseStart);
-        buttonPanel.add(chooseEnd);
         
         add(buttonPanel, BorderLayout.NORTH);
         
@@ -76,44 +54,9 @@ public class MyStepsUI extends javax.swing.JPanel {
 		chartPanel.add(BarGraph.createBarGraph(ids, startDate, endDate, "我的ACM STEPS"));
         chartPanel.validate();
     }
-    
-    private void chooseStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseStartActionPerformed
-        // TODO add your handling code here:
-        DateChooser dateChooser = new DateChooser(MainFrame.getInstance());
-        dateChooser.showChooser(chooseStart,
-            chooseStart.getX() - DateChooser.width, chooseStart.getY());
-
-        if(dateChooser.getDate() != null){
-            chooseStart.setText(new SimpleDateFormat("[yyyy年M月d日]")
-                .format(dateChooser.getDate()));
-            startDate = dateChooser.getDate();
-            if(endDate != null){
-                renewMySteps();
-            }
-        }
-    }//GEN-LAST:event_chooseStartActionPerformed
-
-    private void chooseEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseEndActionPerformed
-        // TODO add your handling code here:
-        DateChooser dateChooser = new DateChooser(MainFrame.getInstance());
-        dateChooser.showChooser(chooseEnd,
-            chooseEnd.getX() - DateChooser.width, chooseEnd.getY());
-
-        if(dateChooser.getDate() != null){
-            chooseEnd.setText(new SimpleDateFormat("[yyyy年M月d日]")
-                .format(dateChooser.getDate()));
-            endDate = dateChooser.getDate();
-            if(startDate != null){
-                renewMySteps();
-            }
-        }
-    }//GEN-LAST:event_chooseEndActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JPanel chartPanel;
-    private javax.swing.JButton chooseEnd;
-    private javax.swing.JButton chooseStart;
     // End of variables declaration//GEN-END:variables
 }

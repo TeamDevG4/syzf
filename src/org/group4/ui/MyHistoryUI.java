@@ -8,14 +8,17 @@ package org.group4.ui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Vector;
 
-import org.group4.datechooser.DateChooser;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+
+import org.group4.datechooser.DatePanel;
 import org.group4.util.Context;
 
 /**
@@ -32,7 +35,7 @@ public class MyHistoryUI extends javax.swing.JPanel {
         initComponents();
     }
     
-    private void renewHistory(){
+    public void renewChart(){
         chartPanel.removeAll();
         String[] users = new String[1];
         users[0] = Context.getUserID();
@@ -51,28 +54,18 @@ public class MyHistoryUI extends javax.swing.JPanel {
 
         buttonPanel = new javax.swing.JPanel();
         chartPanel = new javax.swing.JPanel();
-        chooseStart = new javax.swing.JButton();
-        chooseEnd = new javax.swing.JButton();
-
-        chooseStart.setText("点击此按钮以选择开始时间");
-        chooseStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseStartActionPerformed(evt);
-            }
-        });
-
-        chooseEnd.setText("点击此按钮以选择结束时间");
-        chooseEnd.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseEndActionPerformed(evt);
-            }
-        });
-
         setLayout(new BorderLayout());
         buttonPanel.setLayout(new GridLayout(1,2));
-        buttonPanel.add(chooseStart);
-        buttonPanel.add(chooseEnd);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        try {
+			sdp = new DatePanel(startDate = sdf.parse("2007-05"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        edp = new DatePanel(endDate = Calendar.getInstance().getTime());
+        buttonPanel.add(sdp);
+        buttonPanel.add(edp);
         
         add(buttonPanel, BorderLayout.NORTH);
         
@@ -80,43 +73,9 @@ public class MyHistoryUI extends javax.swing.JPanel {
         add(chartPanel, BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chooseStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseStartActionPerformed
-        // TODO add your handling code here:
-        DateChooser dateChooser = new DateChooser(MainFrame.getInstance());
-        dateChooser.showChooser(chooseStart, 
-                               chooseStart.getX() - DateChooser.width, chooseStart.getY());
-
-        if(dateChooser.getDate() != null){
-            chooseStart.setText(new SimpleDateFormat("[ yyyy年M月d日]")
-                                       .format(dateChooser.getDate()));
-            startDate = dateChooser.getDate();
-            if(endDate != null){
-                renewHistory();
-            }
-        }
-    }//GEN-LAST:event_chooseStartActionPerformed
-
-    private void chooseEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseEndActionPerformed
-        // TODO add your handling code here:
-        DateChooser dateChooser = new DateChooser(MainFrame.getInstance());
-        dateChooser.showChooser(chooseEnd, 
-                               chooseEnd.getX() - DateChooser.width, chooseEnd.getY());
-
-        if(dateChooser.getDate() != null){
-            chooseEnd.setText(new SimpleDateFormat("[ yyyy年M月d日]")
-                                       .format(dateChooser.getDate()));
-            endDate = dateChooser.getDate();
-            if(startDate != null){
-                renewHistory();
-            }
-        }
-    }//GEN-LAST:event_chooseEndActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chartPanel;
-    private javax.swing.JButton chooseEnd;
-    private javax.swing.JButton chooseStart;
+    private DatePanel sdp, edp;
     private javax.swing.JPanel buttonPanel;
     // End of variables declaration//GEN-END:variables
 }

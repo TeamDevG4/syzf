@@ -85,6 +85,7 @@ public class MainFrame extends javax.swing.JFrame {
                 case MY_ACHIEVEMENT:
                     if(!changed[MY_ACHIEVEMENT]){
                         changed[MY_ACHIEVEMENT] = true;
+                        achievement.update();
                     }
                     break;
                 case OUR_DIFFERENCE:

@@ -129,11 +129,14 @@ public class RecommendUI extends javax.swing.JPanel {
         for(int i = 0;i < doneProbs.size();i++){
         	done[Integer.valueOf(doneProbs.get(i)) - 1000] = true;
         }
-        recommendedProbs.setText(""); 
         String[] probs = FileUtil.getProbsOfType("problemType.txt", type);
+        int counter = 0;
+        recommendedProbs.setText("");
         for(int i = 0;i < probs.length;i++){
         	if(!done[Integer.valueOf(probs[i]) - 1000]){
         		recommendedProbs.append(probs[i] + "\t");
+        		counter++;
+        		if(counter >= 6)break;
         	}
         }
         if(recommendedProbs.getText() == ""){

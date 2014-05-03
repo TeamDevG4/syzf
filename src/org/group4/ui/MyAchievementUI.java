@@ -6,6 +6,18 @@
 
 package org.group4.ui;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.TreeSet;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.group4.util.Context;
+
 /**
  *
  * @author Kam
@@ -17,14 +29,23 @@ public class MyAchievementUI extends javax.swing.JPanel {
      */
     public MyAchievementUI() {
         initComponents();
-        init();
     }
 
     //添加成就条目
-    private void init(){
-        add(new AchievementItem(AchievementItem.STAY_UP_LATE));
-        add(new AchievementItem(AchievementItem.TRY_AND_TRY));
-        add(new AchievementItem(AchievementItem.ONE_SHOT));
+    public void update(){
+    	int h = 30;
+    	boolean acs[] = AchievementAccessment.MyHighligthOfAC(Context.getUserID());
+    	while(h > 0 && !acs[h])h--;
+    	if(h != 0)
+    		add(new AchievementItem("A题大师","累计已解决超过" + h + "百题"));
+    	Vector<String> vec = AchievementAccessment.MyHighligthOfUnremitting(Context.getUserID());
+    	if(vec != null){
+    		add(new AchievementItem("屡败屡战","总有一些题，你刷，还是不刷，它就在那里，不能解决"));
+    	}
+    	vec = AchievementAccessment.MyHighligthOfACFirsttime(Context.getUserID());
+    	if(vec != null){
+    		add(new AchievementItem("一次通过","1A有时很简单，你也试过"));
+    	}
     }
     
     /**
@@ -42,4 +63,119 @@ public class MyAchievementUI extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    
+    private static class AchievementAccessment{
+    	//AC的题目达到一定数量
+    	public static boolean[] MyHighligthOfAC(String id){
+    		boolean myHighligthOfAC[] = new boolean[100];
+    		BufferedReader br = null;
+    		try {			
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
+                String s,parts[];
+    			int retAC = 0;
+                while((s = br.readLine()) != null){
+                    parts = s.split(" |\t");
+    				if(parts[3] == "Accept"){
+    					retAC++;  
+    				}
+                }
+    			br.close();
+    			if(retAC>=100){
+    				for(int i=0;i<retAC/100;i++){
+    					myHighligthOfAC[i]=true;
+    				}
+    			}
+    			return myHighligthOfAC;
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+            	
+            }
+    		return null;
+    	}
+    	//屡战屡败的题目（同一道题，提交数量超过10次，仍然未AC）
+    	public static Vector<String> MyHighligthOfUnremitting(String id){
+    		BufferedReader br = null;
+    		try {
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
+                String s,parts[];
+    			Vector<String> probID = new Vector<>();
+                while((s = br.readLine()) != null){
+                    parts = s.split(" |\t");
+    				probID.add(parts[0]);
+                }
+    			br.close();
+    			Vector<String> probsUnremitting = new Vector<>();
+    			for(int i=0;i<probID.size();i++){
+    				int count=1;
+    				for(int j=i+1;j<probID.size();j++){
+    					if(probID.get(i).equals(probID.get(j)))
+    						count++;
+    				}
+    				if(count>10){
+    					probsUnremitting.add(probID.get(i));
+    				}
+    			}
+    			//去除重复的题号
+    			TreeSet<String> tr = new TreeSet<String>();
+    			for(int i=0;i<probsUnremitting.size();i++){
+    				tr.add(probsUnremitting.get(i));
+    			}
+    			Vector<String> probUnremitting = new Vector<>();
+    			for(int i=0;i<tr.size();i++){
+    				probUnremitting.add(tr.pollFirst());
+    			}
+    			return probUnremitting;
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                
+            }
+    		return null;
+    	}
+    	//第一次提交AC的题目
+    	public static Vector<String> MyHighligthOfACFirsttime(String id){
+    		BufferedReader br = null;
+    		try {
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
+                String s,parts[];
+    			Vector<String> probs = new Vector<>();
+    			Vector<String> probsACFirsttime = new Vector<>();
+    			Vector<String> status = new Vector<>();
+                while((s = br.readLine()) != null){
+                    parts = s.split(" |\t");
+    				probs.add(parts[0]);
+    				status.add(parts[3]);
+                }
+    			for(int i=0;i<probs.size();i++){
+    				int count=1;
+    				for(int j=i+1;j<probs.size();j++){
+    					if(probs.get(i).equals(probs.get(j))){
+    						count++;
+    					}
+    				}
+    				if(count==1&&status.get(i)=="Accept"){
+    					probsACFirsttime.add(probs.get(i));		
+    				}
+    			}
+    			br.close();
+    			
+    			return probsACFirsttime;
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                
+            }
+    		return null;
+    	}
+    }
 }

@@ -15,20 +15,15 @@ import javax.swing.ImageIcon;
  */
 public class AchievementItem extends javax.swing.JPanel {
 
-    public static final int STAY_UP_LATE = 0, TRY_AND_TRY = 1, ONE_SHOT = 2;
-    private static final String[] titles = {"深夜刷题", "屡败屡战", "一次通过"};
-    private static final String[] desc = {"曾在凌晨0点至5点刷题",
-    "一直在刷题，从未曾AC", "一次提交AC了"
-    };
     /**
      * Creates new form AchievementItem
      */
-    public AchievementItem(int id) {
+    public AchievementItem(String title, String desc) {
         initComponents();
         ImageIcon image = new ImageIcon(new ImageIcon("res/badge.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT));
         badgeImage.setIcon(image);
-        badgeName.setText(titles[id]);
-        badgeDesc.setText(desc[id]);
+        badgeName.setText(title);
+        badgeDesc.setText(desc);
     }
 
     /**
