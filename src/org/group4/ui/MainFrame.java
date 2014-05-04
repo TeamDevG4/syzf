@@ -168,6 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
             	changed[i] = false;
             }
             Context.setUserID(null);
+            MainFrame.this.remove(tp);
         }
     }//GEN-LAST:event_jMenuItemSwitchUserActionPerformed
 

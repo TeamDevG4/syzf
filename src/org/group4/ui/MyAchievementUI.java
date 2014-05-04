@@ -33,9 +33,7 @@ public class MyAchievementUI extends javax.swing.JPanel {
 
     //添加成就条目
     public void update(){
-    	int h = 30;
-    	boolean acs[] = AchievementAccessment.MyHighligthOfAC(Context.getUserID());
-    	while(h > 0 && !acs[h])h--;
+    	int h = AchievementAccessment.MyHighligthOfAC(Context.getUserID()) / 100;
     	if(h != 0)
     		add(new AchievementItem("A题大师","累计已解决超过" + h + "百题"));
     	Vector<String> vec = AchievementAccessment.MyHighligthOfUnremitting(Context.getUserID());
@@ -66,8 +64,7 @@ public class MyAchievementUI extends javax.swing.JPanel {
     
     private static class AchievementAccessment{
     	//AC的题目达到一定数量
-    	public static boolean[] MyHighligthOfAC(String id){
-    		boolean myHighligthOfAC[] = new boolean[100];
+    	public static int MyHighligthOfAC(String id){
     		BufferedReader br = null;
     		try {			
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
@@ -75,17 +72,12 @@ public class MyAchievementUI extends javax.swing.JPanel {
     			int retAC = 0;
                 while((s = br.readLine()) != null){
                     parts = s.split(" |\t");
-    				if(parts[3] == "Accept"){
-    					retAC++;  
+    				if(parts[3].equals("Accepted")){
+    					retAC++;
     				}
                 }
     			br.close();
-    			if(retAC>=100){
-    				for(int i=0;i<retAC/100;i++){
-    					myHighligthOfAC[i]=true;
-    				}
-    			}
-    			return myHighligthOfAC;
+    			return retAC;
                 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,7 +86,7 @@ public class MyAchievementUI extends javax.swing.JPanel {
             } finally{
             	
             }
-    		return null;
+    		return -1;
     	}
     	//屡战屡败的题目（同一道题，提交数量超过10次，仍然未AC）
     	public static Vector<String> MyHighligthOfUnremitting(String id){
