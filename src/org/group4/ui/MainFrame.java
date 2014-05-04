@@ -12,10 +12,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.group4.util.Context;
 import org.group4.util.URLOpener;
 
 /**
@@ -40,7 +43,6 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         super("谁与争锋");
         initComponents();
-        init();
     }
 
     public static MainFrame getInstance(){
@@ -50,9 +52,8 @@ public class MainFrame extends javax.swing.JFrame {
         return thisMainFrame;
     }
     
-    private void init(){
-        getContentPane().add(new LoginForm(), 0);
-        JTabbedPane tp = new JTabbedPane();
+    public void initTabbedPane(){
+        tp = new JTabbedPane();
         history = new MyHistoryUI();
         tp.addTab("我的奋斗史", history);
         steps = new MyStepsUI();
@@ -68,10 +69,10 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(tp, 1);
     }
     
+    private boolean changed[] = new boolean[5];
     private class MyTabChangedListener implements ChangeListener{
         private static final int MY_HISTORY = 0, MY_STEPS = 1, MY_ACHIEVEMENT = 2,
                 OUR_DIFFERENCE = 3, RECOMMEND = 4;
-        private boolean changed[] = new boolean[5];
         @Override
         public void stateChanged(ChangeEvent e) {
             switch(((JTabbedPane)e.getSource()).getSelectedIndex()){
@@ -81,6 +82,10 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                     break;
                 case MY_STEPS:
+                	if(!changed[MY_STEPS]){
+                		changed[MY_STEPS] = true;
+                		steps.renewChart();
+                	}
                     break;
                 case MY_ACHIEVEMENT:
                     if(!changed[MY_ACHIEVEMENT]){
@@ -151,6 +156,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
+        getContentPane().add(new LoginForm(), 0);
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private boolean isLogin = false;
@@ -158,6 +164,10 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(isLogin){
             flip();
+            for(int i = 0;i < changed.length;i++){
+            	changed[i] = false;
+            }
+            Context.setUserID(null);
         }
     }//GEN-LAST:event_jMenuItemSwitchUserActionPerformed
 
@@ -236,5 +246,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSwitchUser;
     private javax.swing.JMenuItem menuItemGoPracticing;
     private javax.swing.JMenuItem menuItemImportTypes;
+    private JTabbedPane tp;
     // End of variables declaration//GEN-END:variables
 }

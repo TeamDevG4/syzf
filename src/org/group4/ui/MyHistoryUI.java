@@ -8,18 +8,16 @@ package org.group4.ui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Vector;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 
 import org.group4.datechooser.DatePanel;
 import org.group4.util.Context;
+import org.group4.util.FileUtil;
 
 /**
  *
@@ -33,6 +31,7 @@ public class MyHistoryUI extends javax.swing.JPanel {
      */
     public MyHistoryUI() {
         initComponents();
+        renewChart();
     }
     
     public void renewChart(){
@@ -56,14 +55,8 @@ public class MyHistoryUI extends javax.swing.JPanel {
         chartPanel = new javax.swing.JPanel();
         setLayout(new BorderLayout());
         buttonPanel.setLayout(new GridLayout(1,2));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-        try {
-			sdp = new DatePanel(startDate = sdf.parse("2007-05"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        edp = new DatePanel(endDate = Calendar.getInstance().getTime());
+		sdp = new DatePanel(startDate = FileUtil.getFirstDate(Context.getUserID()));
+        edp = new DatePanel(endDate = FileUtil.getLastDate(Context.getUserID()));
         buttonPanel.add(sdp);
         buttonPanel.add(edp);
         
@@ -71,7 +64,22 @@ public class MyHistoryUI extends javax.swing.JPanel {
         
         chartPanel.setLayout(new GridLayout(1,1));
         add(chartPanel, BorderLayout.CENTER);
-    }// </editor-fold>//GEN-END:initComponents
+        
+        sdp.addChangeListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				// TODO Auto-generated method stub
+				renewChart();
+			}
+        });
+        edp.addChangeListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				renewChart();
+			}
+        });
+    }// GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chartPanel;

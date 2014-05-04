@@ -8,9 +8,13 @@ package org.group4.ui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Date;
 
+import org.group4.datechooser.DatePanel;
 import org.group4.util.Context;
+import org.group4.util.FileUtil;
 
 /**
  *
@@ -43,11 +47,30 @@ public class MyStepsUI extends javax.swing.JPanel {
         
         add(buttonPanel, BorderLayout.NORTH);
         
+        sdp = new DatePanel(startDate = FileUtil.getFirstDate(Context.getUserID()));
+        edp = new DatePanel(endDate = FileUtil.getLastDate(Context.getUserID()));
+        buttonPanel.add(sdp);
+        buttonPanel.add(edp);
+        sdp.addChangeListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				// TODO Auto-generated method stub
+				renewChart();
+			}
+        });
+        edp.addChangeListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				renewChart();
+			}
+        });
+        
         chartPanel.setLayout(new GridLayout(1,1));
         add(chartPanel, BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void renewMySteps(){
+    public void renewChart(){
         chartPanel.removeAll();
         String[] ids = new String[1];
         ids[0] = Context.getUserID();
@@ -57,6 +80,7 @@ public class MyStepsUI extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttonPanel;
+    private DatePanel sdp, edp;
     private javax.swing.JPanel chartPanel;
     // End of variables declaration//GEN-END:variables
 }

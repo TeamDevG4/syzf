@@ -147,6 +147,7 @@ public class LoginForm extends javax.swing.JPanel {
             Context.setUserID(usernameField.getText().toString());
             HttpUtil.setUsername(Context.getUserID());
             new ProgressBar();
+            MainFrame.getInstance().initTabbedPane();
             MainFrame.getInstance().flip();
         }catch(Exception e){
             e.printStackTrace();
