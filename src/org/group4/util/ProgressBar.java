@@ -119,6 +119,19 @@ public class ProgressBar implements ActionListener{
                 }
             }
         }.start();
+        new Thread(){
+        	public void run(){
+        		while(thread.isAlive()){
+        			lbStatus.setText(statusInfo + HttpUtil.count + "/" + HttpUtil.up);
+        			try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        		}
+        	}
+        }.start();
     }
     private void layout(int width, int height)
     {
