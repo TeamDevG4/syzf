@@ -5,15 +5,35 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HttpUtil extends Thread{
+	//读取用户数据时，主要时间花费在读取用户提交每道题的提交时间
+	public static int count;//当前读取记录数
+	public static int up;//等于Submissions
+	
     static String username;
     public static void setUsername(String user){
 	username=user;
     }
-	
+    public static boolean judgeID(){
+    	String url="http://acm.hdu.edu.cn/userstatus.php?user="+username;
+    	String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");
+    	String userRegex="<DIV>No such user.";
+    	Pattern userPattern=Pattern.compile(userRegex);
+    	Matcher userMatcher=userPattern.matcher(inputHtml);	
+    	if(userMatcher.find())
+    	{
+    		return false;
+    	}else{
+    		return true;
+    	}
+
+	  
+	}		
     public void run(){		
         try {
             analyseUserInfoFromHtml();
@@ -29,9 +49,9 @@ public class HttpUtil extends Thread{
 	
 	//获取用户的所有信息
 	public static void analyseUserInfoFromHtml() throws IOException{
-		analyseUserProByTime(username);//获取用户按时间顺序做题的信息，包括题目ID，提交时间，提交状态
-		analyseUserProByID(username);//获取用户按题目ID顺序做题的信息，包括题目ID，提交次数，Accepted次数
 		analyseUserBaseInfo(username);//获取用户的rank以及submitted, solved, submissions, accepted的题目数
+		analyseUserProByTime(username);//获取用户按时间顺序做题的信息，包括题目ID，提交时间，提交状态
+		analyseUserProByID(username);//获取用户按题目ID顺序做题的信息，包括题目ID，提交次数，Accepted次数	
 	}
 	//获取用户按时间顺序做题的信息，包括题目ID，提交时间，提交状态
 	public static void analyseUserProByTime(String username) throws IOException{
@@ -56,7 +76,7 @@ public class HttpUtil extends Thread{
 		Matcher proIDMatcher=null;
 		Matcher nextMatcher=null;
 		
-		
+		count=0;//提交题目记录数
 		String inputHtml=null;//存放html网页的内容
 		String nextUrl=null;//下一页的URL
 		String urlForLoop=null;
@@ -79,6 +99,7 @@ public class HttpUtil extends Thread{
 			nextMatcher=nextPattern.matcher(inputHtml);
 			
 			while(timeMatcher.find()&&proIDMatcher.find()&&statusMatcher.find()){
+				count++;
 				bufWrite.write(proIDMatcher.group(1) +"\t"+timeMatcher.group(1)+"\t"+statusMatcher.group(1));
 				bufWrite.newLine();
 			}
@@ -108,7 +129,7 @@ public class HttpUtil extends Thread{
 		bufWrite.close();
 	}
 	//获取用户的rank以及submitted, solved, submissions, accepted的题目数
-	public static void analyseUserBaseInfo(String username) throws IOException{
+	public static User analyseUserBaseInfo(String username) throws IOException{
 		String url="http://acm.hdu.edu.cn/userstatus.php?user="+username;
 		String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");
 		String userInfoRegex="<tr><td>Rank</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Problems Submitted</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Problems Solved</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Submissions</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Accepted</td><td align=center>(\\d+)</td></tr>";
@@ -123,7 +144,12 @@ public class HttpUtil extends Thread{
 			int submissions=Integer.parseInt(userInfoMatcher.group(4));
 			int accepted=Integer.parseInt(userInfoMatcher.group(5));
 			user.setBaseInfo(username, rank, submitted, solved, submissions, accepted);
-		}	
+			up=user.submissions;
+			
+		}
+		return user;
+		
 	}
+
 }
 
