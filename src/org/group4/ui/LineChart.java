@@ -23,18 +23,18 @@ public class LineChart{
     	DefaultCategoryDataset data = new DefaultCategoryDataset();
     	Date xDate;
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-    	int totalMonths = (endDate.getYear() - startDate.getYear()) * 12 + endDate.getMonth() - startDate.getMonth();
+    	int totalMonths = (endDate.getYear() - startDate.getYear()) * 12 + endDate.getMonth() - startDate.getMonth() + 1;
         for(int i = 0;i < ids.length;i++){
         	int[] vec = FileUtil.countUserSubmission(ids[i], startDate, endDate, "Accepted", true);
         	xDate = (Date) startDate.clone();
         	for(int j = 0;j < totalMonths;j++){
-        		if(xDate.getMonth() == 12){
+        		data.addValue(vec[j], ids[i], sdf.format(xDate));
+        		if(xDate.getMonth() == 11){
         			xDate.setYear(xDate.getYear() + 1);
-        			xDate.setMonth(1);
+        			xDate.setMonth(0);
         		}else{
         			xDate.setMonth(xDate.getMonth() + 1);
         		}
-        		data.addValue(vec[j], ids[i], sdf.format(xDate));
         	}
         }
         return data;

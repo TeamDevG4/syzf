@@ -1,6 +1,7 @@
 package org.group4.datechooser;
 
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Date;
 import java.util.Vector;
@@ -12,8 +13,10 @@ import javax.swing.JPanel;
 
 public class DatePanel extends JPanel{
 	JComboBox yCombo, mCombo;
+	private Date date;
 	public DatePanel(final Date defaultDate){
 		super();
+		date = defaultDate;
 		GridLayout layout = new GridLayout(1, 2);
 		setLayout(layout);
 		Vector<String> years = new Vector<>(), months = new Vector<>();
@@ -40,9 +43,21 @@ public class DatePanel extends JPanel{
 		add(mCombo);
 		yCombo.setSelectedIndex(defaultDate.getYear() - 2007 + 1900);
 		mCombo.setSelectedIndex(defaultDate.getMonth());
+		ItemListener dateChangedListener = new DateChangedListener();
+		yCombo.addItemListener(dateChangedListener);
+		mCombo.addItemListener(dateChangedListener);
 	}
 	public void addChangeListener(ItemListener listener){
 		yCombo.addItemListener(listener);
 		mCombo.addItemListener(listener);
+	}
+	private class DateChangedListener implements ItemListener{
+		@SuppressWarnings("deprecation")
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			// TODO Auto-generated method stub
+			date.setYear(yCombo.getSelectedIndex() + 107);
+			date.setMonth(mCombo.getSelectedIndex());
+		}
 	}
 }
