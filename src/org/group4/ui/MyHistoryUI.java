@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import org.group4.datechooser.DatePanel;
 import org.group4.util.Context;
 import org.group4.util.FileUtil;
@@ -35,11 +37,17 @@ public class MyHistoryUI extends javax.swing.JPanel {
     }
     
     public void renewChart(){
-        chartPanel.removeAll();
-        String[] users = new String[1];
-        users[0] = Context.getUserID();
-        chartPanel.add(LineChart.createAcceptedLineChart(users, startDate, endDate, "我的ACM之路"));
-        chartPanel.validate();
+    	startDate.setDate(0);
+    	endDate.setDate(0);
+    	if(startDate.after(endDate)){
+    		JOptionPane.showMessageDialog(this, "结束时间早于开始时间？你确定？", "日期设置错误", JOptionPane.WARNING_MESSAGE);
+    	}else{
+    		chartPanel.removeAll();
+            String[] users = new String[1];
+            users[0] = Context.getUserID();
+            chartPanel.add(LineChart.createAcceptedLineChart(users, startDate, endDate, "我的ACM之路"));
+            chartPanel.validate();
+    	}
     }
     
     /**
@@ -56,7 +64,9 @@ public class MyHistoryUI extends javax.swing.JPanel {
         setLayout(new BorderLayout());
         buttonPanel.setLayout(new GridLayout(1,2));
 		sdp = new DatePanel(startDate = FileUtil.getFirstDate(Context.getUserID()));
+		
         edp = new DatePanel(endDate = FileUtil.getLastDate(Context.getUserID()));
+        
         buttonPanel.add(sdp);
         buttonPanel.add(edp);
         

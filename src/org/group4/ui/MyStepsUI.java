@@ -12,6 +12,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import org.group4.datechooser.DatePanel;
 import org.group4.util.Context;
 import org.group4.util.FileUtil;
@@ -71,11 +73,17 @@ public class MyStepsUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void renewChart(){
-        chartPanel.removeAll();
-        String[] ids = new String[1];
-        ids[0] = Context.getUserID();
-		chartPanel.add(BarGraph.createBarGraph(ids, startDate, endDate, "我的ACM STEPS"));
-        chartPanel.validate();
+        startDate.setDate(0);
+    	endDate.setDate(0);
+    	if(startDate.after(endDate)){
+    		JOptionPane.showMessageDialog(this, "结束时间早于开始时间？你确定？", "日期设置错误", JOptionPane.WARNING_MESSAGE);
+    	}else{
+    		chartPanel.removeAll();
+            String[] ids = new String[1];
+            ids[0] = Context.getUserID();
+    		chartPanel.add(BarGraph.createBarGraph(ids, startDate, endDate, "我的ACM STEPS"));
+            chartPanel.validate();
+    	}
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
