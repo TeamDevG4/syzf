@@ -279,7 +279,7 @@ public class FileUtil {
 							typeNum.remove(type);
 							typeNum.put(type, temp);
 						}
-					}else{
+					}/*else{
 						String type = "未分类";
 						if(!typeNum.containsKey(type)){
 							typeNum.put(type, 1);
@@ -289,7 +289,7 @@ public class FileUtil {
 							typeNum.remove(type);
 							typeNum.put(type, temp);
 						}
-					}
+					}*/
 				}
 				counted[Integer.valueOf(parts[0]) - 1000] = true;
             }
@@ -363,6 +363,5 @@ public class FileUtil {
         }
 		return null;
 	}
-	
 	
 }

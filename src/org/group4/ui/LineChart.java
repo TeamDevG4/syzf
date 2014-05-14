@@ -11,10 +11,15 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.TextAnchor;
 
 public class LineChart{
 
@@ -40,9 +45,10 @@ public class LineChart{
         return data;
     }
 
+	@SuppressWarnings("deprecation")
 	public static ChartPanel createAcceptedLineChart(String[] ids,Date startDate,Date endDate,String title){
     	CategoryDataset  dataset = createDataset(ids, startDate, endDate);
-        JFreeChart jfreechart = ChartFactory.createLineChart(title, "日期", "数量", dataset, PlotOrientation.VERTICAL, true, true, true);
+        JFreeChart jfreechart = ChartFactory.createLineChart(title, "日期", "数量", dataset, PlotOrientation.VERTICAL, true, true, false);
         CategoryPlot  plot = (CategoryPlot) jfreechart.getPlot();
         CategoryAxis dateaxis = plot.getDomainAxis();
         dateaxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -52,6 +58,16 @@ public class LineChart{
         rangeAxis.setLabelFont(new Font("黑体",Font.BOLD,15));
         jfreechart.getLegend().setItemFont(new Font("黑体", Font.BOLD, 15));
         jfreechart.getTitle().setFont(new Font("宋体",Font.BOLD,20));
+        setValueVisible(plot);
         return new ChartPanel(jfreechart, true);
     }
+
+	private static void setValueVisible(CategoryPlot plot) {
+		// TODO Auto-generated method stub
+		CategoryItemRenderer renderer = plot.getRenderer();
+        renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());//显示每个柱的数值
+        renderer.setBaseItemLabelsVisible(true);
+        ItemLabelPosition itp = new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER_LEFT, TextAnchor.CENTER_RIGHT, 1.00D);
+        renderer.setPositiveItemLabelPosition(itp);
+	}
 }
