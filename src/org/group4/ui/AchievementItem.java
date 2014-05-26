@@ -6,7 +6,9 @@
 
 package org.group4.ui;
 
+import java.awt.Color;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -24,6 +26,8 @@ public class AchievementItem extends javax.swing.JPanel {
         badgeImage.setIcon(image);
         badgeName.setText(title);
         badgeDesc.setText(desc);
+        setOpaque(true);
+        setBackground(Color.CYAN);
     }
 
     /**
@@ -41,7 +45,7 @@ public class AchievementItem extends javax.swing.JPanel {
 
         setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(630, 80));
+        setPreferredSize(new java.awt.Dimension(350, 80));
 
         badgeDesc.setFont(new java.awt.Font("宋体", 0, 18)); // NOI18N
 

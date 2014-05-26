@@ -6,6 +6,7 @@
 
 package org.group4.ui;
 
+import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,31 +17,38 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.group4.util.Context;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Kam
  */
-public class MyAchievementUI extends javax.swing.JPanel {
+public class MyAchievementUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2466619796268050680L;
+	private final String user;
     /**
      * Creates new form MyAchievementUI
      */
-    public MyAchievementUI() {
-        initComponents();
+    public MyAchievementUI(String id) {
+        user = id;
+    	initComponents();
+    	setLayout(new GridLayout(5, 1));//行数调大了有问题，会令其他页面变形
     }
 
     //添加成就条目
     public void update(){
-    	int h = AchievementAccessment.MyHighligthOfAC(Context.getUserID()) / 100;
+    	int h = AchievementAccessment.MyHighligthOfAC(user) / 100;
     	if(h != 0)
     		add(new AchievementItem("A题大师","累计已解决超过" + h + "百题"));
-    	Vector<String> vec = AchievementAccessment.MyHighligthOfUnremitting(Context.getUserID());
+    	Vector<String> vec = AchievementAccessment.MyHighligthOfUnremitting(user);
     	if(vec != null){
     		add(new AchievementItem("屡败屡战","总有一些题，你刷，还是不刷，它就在那里，不能解决"));
     	}
-    	vec = AchievementAccessment.MyHighligthOfACFirsttime(Context.getUserID());
+    	vec = AchievementAccessment.MyHighligthOfACFirsttime(user);
     	if(vec != null){
     		add(new AchievementItem("一次通过","1A有时很简单，你也试过"));
     	}

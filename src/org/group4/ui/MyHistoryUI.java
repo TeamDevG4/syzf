@@ -10,15 +10,11 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
 
 import org.group4.datechooser.DatePanel;
-import org.group4.util.Context;
 import org.group4.util.FileUtil;
 
 /**
@@ -27,11 +23,13 @@ import org.group4.util.FileUtil;
  */
 public class MyHistoryUI extends javax.swing.JPanel {
 
-    private Date startDate, endDate;
+	private Date startDate, endDate;
+    private final String user;
     /**
      * Creates new form MyHistoryUI
      */
-    public MyHistoryUI() {
+    public MyHistoryUI(String id) {
+    	user = id;
         initComponents();
         renewChart();
     }
@@ -44,7 +42,7 @@ public class MyHistoryUI extends javax.swing.JPanel {
     	}else{
     		chartPanel.removeAll();
             String[] users = new String[1];
-            users[0] = Context.getUserID();
+            users[0] = user;
             chartPanel.add(LineChart.createAcceptedLineChart(users, startDate, endDate, "我的ACM之路"));
             chartPanel.validate();
     	}
@@ -58,14 +56,14 @@ public class MyHistoryUI extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+    	setOpaque(false);
         buttonPanel = new javax.swing.JPanel();
         chartPanel = new javax.swing.JPanel();
         setLayout(new BorderLayout());
         buttonPanel.setLayout(new GridLayout(1,2));
-		sdp = new DatePanel(startDate = FileUtil.getFirstDate(Context.getUserID()));
+		sdp = new DatePanel(startDate = FileUtil.getFirstDate(user));
 		
-        edp = new DatePanel(endDate = FileUtil.getLastDate(Context.getUserID()));
+        edp = new DatePanel(endDate = FileUtil.getLastDate(user));
         
         buttonPanel.add(sdp);
         buttonPanel.add(edp);

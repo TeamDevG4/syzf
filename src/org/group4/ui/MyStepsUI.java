@@ -15,7 +15,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import org.group4.datechooser.DatePanel;
-import org.group4.util.Context;
 import org.group4.util.FileUtil;
 
 /**
@@ -24,11 +23,13 @@ import org.group4.util.FileUtil;
  */
 public class MyStepsUI extends javax.swing.JPanel {
 
-    private Date startDate, endDate;
+    private final String user;
+	private Date startDate, endDate;
     /**
      * Creates new form StepsChart
      */
-    public MyStepsUI() {
+    public MyStepsUI(String id) {
+    	user = id;
         initComponents();
     }
 
@@ -40,7 +41,7 @@ public class MyStepsUI extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+    	setOpaque(false);
         buttonPanel = new javax.swing.JPanel();
         chartPanel = new javax.swing.JPanel();
 
@@ -49,8 +50,8 @@ public class MyStepsUI extends javax.swing.JPanel {
         
         add(buttonPanel, BorderLayout.NORTH);
         
-        sdp = new DatePanel(startDate = FileUtil.getFirstDate(Context.getUserID()));
-        edp = new DatePanel(endDate = FileUtil.getLastDate(Context.getUserID()));
+        sdp = new DatePanel(startDate = FileUtil.getFirstDate(user));
+        edp = new DatePanel(endDate = FileUtil.getLastDate(user));
         buttonPanel.add(sdp);
         buttonPanel.add(edp);
         sdp.addChangeListener(new ItemListener(){
@@ -67,7 +68,7 @@ public class MyStepsUI extends javax.swing.JPanel {
 				renewChart();
 			}
         });
-        
+        chartPanel.setOpaque(false);
         chartPanel.setLayout(new GridLayout(1,1));
         add(chartPanel, BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -80,7 +81,7 @@ public class MyStepsUI extends javax.swing.JPanel {
     	}else{
     		chartPanel.removeAll();
             String[] ids = new String[1];
-            ids[0] = Context.getUserID();
+            ids[0] = user;
     		chartPanel.add(BarGraph.createBarGraph(ids, startDate, endDate, "我的ACM STEPS"));
             chartPanel.validate();
     	}

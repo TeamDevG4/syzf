@@ -8,13 +8,10 @@ package org.group4.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Vector;
 
 import javax.swing.JScrollPane;
 
-import org.group4.util.Context;
 import org.group4.util.FileUtil;
 
 
@@ -24,10 +21,12 @@ import org.group4.util.FileUtil;
  */
 public class RecommendUI extends javax.swing.JPanel {
 
-    /**
+    private final String user;
+	/**
      * Creates new form RecommendUI
      */
-    public RecommendUI() {
+    public RecommendUI(String id) {
+    	user = id;
         initComponents();
     }
 
@@ -39,7 +38,7 @@ public class RecommendUI extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+    	setOpaque(false);
         recommand = new javax.swing.JPanel();
         typeComboBox = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
@@ -124,7 +123,7 @@ public class RecommendUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void recommend(String type){
-        Vector<String> doneProbs = FileUtil.getUserDoneProbs(Context.getUserID());
+        Vector<String> doneProbs = FileUtil.getUserDoneProbs(user);
         boolean done[] = new boolean[4000];
         for(int i = 0;i < doneProbs.size();i++){
         	done[Integer.valueOf(doneProbs.get(i)) - 1000] = true;
