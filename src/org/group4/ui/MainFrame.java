@@ -98,7 +98,7 @@ public class MainFrame extends JFrame {
 	public static void main(String[] args){
 		MainFrame.getInstance().setVisible(true);
     	MainFrame.getInstance().setDefaultCloseOperation(EXIT_ON_CLOSE);
-		MainFrame.getInstance().setSize(800, 600);
+		MainFrame.getInstance().setSize(920, 700);
 		MainFrame.getInstance().setVisible(true);
 		MainFrame.getInstance().setLocationRelativeTo(null);
 	}

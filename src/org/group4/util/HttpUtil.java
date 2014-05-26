@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +17,7 @@ public class HttpUtil extends Thread{
 	
     static String username;
     public static void setUsername(String user){
-	username=user;
+    	username=user;
     }
     public static boolean judgeID(){
     	String url="http://acm.hdu.edu.cn/userstatus.php?user="+username;
@@ -128,6 +128,8 @@ public class HttpUtil extends Thread{
 		}
 		bufWrite.close();
 	}
+	
+
 	//获取用户的rank以及submitted, solved, submissions, accepted的题目数
 	public static User analyseUserBaseInfo(String username) throws IOException{
 		String url="http://acm.hdu.edu.cn/userstatus.php?user="+username;
@@ -150,6 +152,81 @@ public class HttpUtil extends Thread{
 		return user;
 		
 	}
-
+   
+	
+	public static Map<String,String> getProInfo(String ProID) throws IOException{
+		Map<String,String> proInfo=new HashMap<String,String>();
+		String url="http://acm.hdu.edu.cn/showproblem.php?pid="+ProID;
+		String proHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");
+		String proRegex="<h1 style='color:#1A5CC8'>(.+)</h1>";
+		String descriptionRegex=">Problem Description</div> <div class=panel_content>(.+)</div>";
+		String inputRegex=">Input</div> <div class=panel_content>(.+)</div>";
+		String outputRegex=">Output</div> <div class=panel_content>(.+)</div>";
+//		String inputSampleRegex="(.+\\n.+)Sample Output";
+//		String outputSampleRegex=">Sample Output</div><div class=panel_content><pre><div style=\"font-family:Courier New,Courier,monospace;\">(.+\\r.+)";
+	
+		
+		Pattern proPattern=Pattern.compile(proRegex);
+		Pattern descriptionPattern=Pattern.compile(descriptionRegex);
+		Pattern inputPattern=Pattern.compile(inputRegex);
+		Pattern outputPattern=Pattern.compile(outputRegex);
+//		Pattern inputSamplePattern=Pattern.compile(inputSampleRegex);
+//		Pattern outputSamplePattern=Pattern.compile(outputSampleRegex);
+		
+		Matcher proMatcher=proPattern.matcher(proHtml);
+		Matcher descriptionMatcher= descriptionPattern.matcher(proHtml);
+		Matcher inputMatcher=inputPattern.matcher(proHtml);
+		Matcher outputMatcher=outputPattern.matcher(proHtml);
+//  	Matcher inputSampleMatcher=inputSamplePattern.matcher(proHtml);
+//		Matcher outputSampleMatcher=outputSamplePattern.matcher(proHtml);
+		
+		String problem=" ";
+		String problemDescription=" ";
+		String input=" ";
+		String output=" ";
+//		String inputSample=" ";
+//		String outputSample=" ";
+		
+		if(proMatcher.find())
+			problem=proMatcher.group(1);
+		if(descriptionMatcher.find())
+			problemDescription=descriptionMatcher.group(1);
+		if(inputMatcher.find())
+			input=inputMatcher.group(1);
+		if(outputMatcher.find())
+			output=outputMatcher.group(1);
+		
+//		if(inputSampleMatcher.find())
+//			inputSample=inputSampleMatcher.group(1);
+//		if(outputSampleMatcher.find())
+//			outputSample=outputSampleMatcher.group(1);
+			
+		problem=problem.replaceAll("<.{1,3}>", "");
+		problemDescription=problemDescription.replaceAll("<.{1,3}>", "");
+		input=input.replaceAll("<.{1,3}>", "");
+		output=output.replaceAll("<.{1,3}>", "");
+		
+//		inputSample=inputSample.replaceAll("<.{1,3}>", "");
+//		outputSample=outputSample.replaceAll("<.{1,3}>", "");
+		
+		problem=problem.replaceAll("<.+", "");
+		problemDescription=problemDescription.replaceAll("<.+", "");
+		input=input.replaceAll("<.+", "");
+		output=output.replaceAll("<.+", "");
+		
+//		inputSample=inputSample.replaceAll("<.+", "");
+//		outputSample=outputSample.replaceAll("<.+", "");
+		
+		proInfo.put("Problem", problem);
+		proInfo.put("ProblemDescription", problemDescription);
+		proInfo.put("Input", input);
+		proInfo.put("Output", output);	
+		
+//		proInfo.put("inputSample", inputSample);
+//		proInfo.put("outputSample", outputSample);
+		
+		return proInfo;	
+	}
 }
+
 

@@ -11,7 +11,7 @@ public class FunctionalTabbedPane extends BackgroundPanel{
 	 */
 	private static final long serialVersionUID = 6229930488409728941L;
 	private String userID;
-	private JPanel history, achievement, steps, recommend;
+	private JPanel history, achievement, steps, recommend, submit;
 	private JTabbedPane tp;
 	
 	public FunctionalTabbedPane(String id) {
@@ -30,6 +30,8 @@ public class FunctionalTabbedPane extends BackgroundPanel{
         tp.addTab("我的亮点", achievement);
         recommend = new RecommendUI(userID);
         tp.addTab("题目推荐", recommend);
+        submit = new SubOnlineUI();
+        tp.addTab("在线提交",submit);
         tp.setTabPlacement(JTabbedPane.LEFT);
         tp.addChangeListener(new MyTabChangedListener());
         add(tp);
@@ -37,7 +39,7 @@ public class FunctionalTabbedPane extends BackgroundPanel{
 	
 	private boolean changed[] = new boolean[4];
     private class MyTabChangedListener implements ChangeListener{
-        private static final int MY_HISTORY = 0, MY_STEPS = 1, MY_ACHIEVEMENT = 2, RECOMMEND = 3;
+        private static final int MY_HISTORY = 0, MY_STEPS = 1, MY_ACHIEVEMENT = 2, RECOMMEND = 3, SUBONLINE = 4;
         @Override
         public void stateChanged(ChangeEvent e) {
             switch(((JTabbedPane)e.getSource()).getSelectedIndex()){
@@ -57,6 +59,9 @@ public class FunctionalTabbedPane extends BackgroundPanel{
                         changed[MY_ACHIEVEMENT] = true;
                         ((MyAchievementUI)achievement).update();
                     }
+                    break;
+                case SUBONLINE:
+                    ((SubOnlineUI)submit).askForProID();
                     break;
                 default:
                     break;
