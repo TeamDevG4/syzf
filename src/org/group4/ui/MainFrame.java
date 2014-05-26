@@ -7,9 +7,11 @@
 package org.group4.ui;
 
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +39,8 @@ public class MainFrame extends javax.swing.JFrame {
     private MyStepsUI steps;
     private OurDifferenceUI difference;
     private RecommendUI recommend;
+    private SubOnlineUI submit;
+    
     /**
      * Creates new form MainFrame
      */
@@ -64,6 +68,8 @@ public class MainFrame extends javax.swing.JFrame {
         tp.addTab("我们的差距", difference);
         recommend = new RecommendUI();
         tp.addTab("题目推荐", recommend);
+        submit = new SubOnlineUI();
+        tp.addTab("在线提交",submit);
         tp.setTabPlacement(JTabbedPane.LEFT);
         tp.addChangeListener(new MyTabChangedListener());
         getContentPane().add(tp, 1);
@@ -72,7 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
     private boolean changed[] = new boolean[5];
     private class MyTabChangedListener implements ChangeListener{
         private static final int MY_HISTORY = 0, MY_STEPS = 1, MY_ACHIEVEMENT = 2,
-                OUR_DIFFERENCE = 3, RECOMMEND = 4;
+                OUR_DIFFERENCE = 3, RECOMMEND = 4,SUBONLINE = 5;
         @Override
         public void stateChanged(ChangeEvent e) {
             switch(((JTabbedPane)e.getSource()).getSelectedIndex()){
@@ -97,6 +103,9 @@ public class MainFrame extends javax.swing.JFrame {
                     if(difference.getOppID() == null)
                         difference.askForUserID();
                     break;
+                case SUBONLINE:
+                        submit.askForProID();
+                    break;    
                 default:
                     break;
             }
@@ -115,6 +124,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemSwitchUser = new javax.swing.JMenuItem();
+        jMenuItemLogin = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         menuItemImportTypes = new javax.swing.JMenuItem();
         menuItemGoPracticing = new javax.swing.JMenuItem();
@@ -131,6 +141,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItemSwitchUser);
+        
+        
 
         jMenuBar1.add(jMenu1);
 
@@ -171,6 +183,8 @@ public class MainFrame extends javax.swing.JFrame {
             MainFrame.this.remove(tp);
         }
     }//GEN-LAST:event_jMenuItemSwitchUserActionPerformed
+    
+  
 
     private void menuItemImportTypesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemImportTypesActionPerformed
         // TODO add your handling code here:
@@ -245,6 +259,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemSwitchUser;
+    private javax.swing.JMenuItem jMenuItemLogin;
     private javax.swing.JMenuItem menuItemGoPracticing;
     private javax.swing.JMenuItem menuItemImportTypes;
     private JTabbedPane tp;
