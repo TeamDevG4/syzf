@@ -40,7 +40,7 @@ public class LoginForm extends JDialog {
 	public LoginForm(JFrame frame){
 		super(frame, "输入该账号的ID", true);
 		setSize(400, 300);
-		this.setLocationRelativeTo(frame);
+		setLocationRelativeTo(frame);
 		initComponents();
 		setResizable(false);
 	}
@@ -58,6 +58,7 @@ public class LoginForm extends JDialog {
 		constraints.gridx = constraints.gridy = 0;
 		panel.add(tip, constraints);
 		usernameTextField = new JTextField();
+		usernameTextField.setFont(new Font("黑体", Font.BOLD, 30));
 		usernameTextField.addActionListener(new ConfirmActionListener());
 		constraints.weightx = 6.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -86,7 +87,7 @@ public class LoginForm extends JDialog {
 
 	private class ConfirmActionListener implements ActionListener{
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent evt) {
 			userID = usernameTextField.getText();
 			HttpUtil.setUsername(getUserID());
 			if(!HttpUtil.judgeID()){

@@ -43,7 +43,6 @@ public class AddTypesDialog extends JDialog{
 
     public AddTypesDialog(){
         initComp();
-        setUndecorated(true);
         setSize(400,116);
         setResizable(false);
         setLocationRelativeTo(null);

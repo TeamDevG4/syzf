@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 	
 	static{
 		for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
+            if ("Windows".equals(info.getName())) {
                 try {
 					UIManager.setLookAndFeel(info.getClassName());
 				} catch (Exception e) {
@@ -101,6 +101,16 @@ public class MainFrame extends JFrame {
 		MainFrame.getInstance().setSize(920, 700);
 		MainFrame.getInstance().setVisible(true);
 		MainFrame.getInstance().setLocationRelativeTo(null);
+		MainFrame.getInstance().showLoginDialog();
+	}
+	
+	private void showLoginDialog(){
+		LoginForm login = new LoginForm(MainFrame.this);
+		login.show();
+//		if(login.getUserID() != null){
+//			closableTabbedPane.addTab(login.getUserID(), null, 
+//					new FunctionalTabbedPane(login.getUserID()));
+//		}
 	}
 	
 	private class ExploreHDUListener implements ActionListener{
@@ -121,12 +131,7 @@ public class MainFrame extends JFrame {
 	private class AddNewAccountListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			LoginForm login = new LoginForm(MainFrame.this);
-			login.show();
-			if(login.getUserID() != null){
-				closableTabbedPane.addTab(login.getUserID(), null, 
-						new FunctionalTabbedPane(login.getUserID()));
-			}
+			showLoginDialog();
 		}
 	}
 }

@@ -7,17 +7,15 @@
 package org.group4.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-
-import org.group4.util.FileUtil;
 
 /**
  *
@@ -25,11 +23,10 @@ import org.group4.util.FileUtil;
  */
 public class OurDifferenceUI extends JDialog {
 
-	private String hint[] = {"按题量", "按类型"};
-    private int index = 0;
-    private Date startDate, endDate, s1, s2, e1, e2;
     private Vector<String> users;
-    
+    private JPanel buttonPanel;
+    private JPanel chartPanel;
+    private JButton switchBarChartButton, switchLineChartButton;
     /**
      * Creates new form OurDifferenceUI
      */
@@ -39,14 +36,28 @@ public class OurDifferenceUI extends JDialog {
     }
     
     private void renewChart(){
-    //    chartPanel.removeAll();
-    //    chartPanel.add(LineChart.createAcceptedLineChart(((String[])users.toArray()), startDate, endDate, "我们解决问题数的差距"));
+        chartPanel.removeAll();
+        chartPanel.add(LineChart.createDifferenceLineChart((String[])users.toArray(), "解决问题数的对比"));
     }
     
     @SuppressWarnings("deprecation")
 	public void show(){
     	super.show();
     	renewChart();
+    }
+    
+    public void addUser(String id){
+    	if(!users.contains(id)){
+    		users.add(id);
+    		renewChart();
+    	}
+    }
+    
+    public void delUser(String id){
+    	if(users.contains(id)){
+    		users.remove(id);
+    		renewChart();
+    	}
     }
     
     private void initComponents() {
@@ -58,42 +69,25 @@ public class OurDifferenceUI extends JDialog {
         switchLineChartButton.addActionListener(new SwitchChartActionListener());
         switchBarChartButton.addActionListener(new SwitchChartActionListener());
         
-        setLayout(new BorderLayout());
+        Container container = getContentPane();
         buttonPanel.setLayout(new GridLayout(1,2));
         buttonPanel.add(switchLineChartButton);
         buttonPanel.add(switchBarChartButton);
-        add(buttonPanel, BorderLayout.NORTH);
+        container.add(buttonPanel, BorderLayout.NORTH);
         chartPanel.setLayout(new GridLayout(1,1));
-        add(chartPanel, BorderLayout.CENTER);
+        container.add(chartPanel, BorderLayout.CENTER);
     }
 
     private class SwitchChartActionListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent evt) {
-			// TODO Auto-generated method stub
 			chartPanel.removeAll();
 	        if(evt.getSource() == switchLineChartButton){
-	            chartPanel.add(LineChart.createAcceptedLineChart(((String[])users.toArray()), startDate, endDate, "我们解决问题数的差距"));
+	            chartPanel.add(LineChart.createDifferenceLineChart((String[])users.toArray(), "解决问题数的对比"));
 	        }else{
-	            chartPanel.add(BarGraph.createBarGraph(((String[])users.toArray()), startDate, endDate, "我们各类题目解题数的差距"));
+	            chartPanel.add(BarGraph.createDifferenceBarGraph((String[])users.toArray(), "我们各类题目解题数的差距"));
 	        }
 		}
     }
     
-    private JPanel buttonPanel;
-    private JPanel chartPanel;
-    private JButton switchBarChartButton, switchLineChartButton;
-    
-    /*
-    public void askForUserID(){
-        oppID = JOptionPane.showInputDialog(OurDifferenceUI.this, "请输入牛人ID");
-        if(oppID == null)return;
-        if(oppID.equals(""))
-            oppID = null;
-        else{
-            HttpUtil.setUsername(oppID);
-            new ProgressBar();
-        }
-        renewChart();
-    }*/
 }
