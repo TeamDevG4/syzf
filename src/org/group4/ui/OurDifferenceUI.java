@@ -53,6 +53,10 @@ public class OurDifferenceUI extends JDialog {
     	}
     }
     
+    public boolean contains(String id){
+    	return users.contains(id);
+    }
+    
     public void delUser(String id){
     	if(users.contains(id)){
     		users.remove(id);

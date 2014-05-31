@@ -17,6 +17,10 @@ public class UserFunctionPanel extends BackgroundPanel{
 		initTabbedPane();
     }
 	
+	public String getUserID(){
+		return userID;
+	}
+	
 	private void initTabbedPane(){
         setLayout(new CardLayout());
         history = new MyHistoryUI(userID);
@@ -27,8 +31,6 @@ public class UserFunctionPanel extends BackgroundPanel{
         add("我的亮点", achievement);
         recommend = new RecommendUI(userID);
         add("题目推荐", recommend);
-        submit = new SubOnlineUI();
-        add("在线提交",submit);
 	}
 	
 	public void showCard(String card){

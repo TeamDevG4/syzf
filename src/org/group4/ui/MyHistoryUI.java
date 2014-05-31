@@ -42,7 +42,7 @@ public class MyHistoryUI extends javax.swing.JPanel {
     	}else{
     		chartPanel.removeAll();
             chartPanel.add(LineChart.createAcceptedLineChart(user, startDate, endDate, "我的ACM之路"));
-            chartPanel.repaint();
+            chartPanel.validate();
     	}
     }
 

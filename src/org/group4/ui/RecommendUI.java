@@ -71,7 +71,9 @@ public class RecommendUI extends JPanel {
     		super(txt);
     		addMouseListener(new MouseAdapter(){
     			public void mouseClicked(MouseEvent evt){
-    				JOptionPane.showMessageDialog(RecommendUI.this, "你选择了" + txt, "Tip", JOptionPane.INFORMATION_MESSAGE);
+    				SubOnlineUI subOnline = new SubOnlineUI();
+    				subOnline.setProID(txt);
+    				subOnline.show();
     			}
     		});
     	}
@@ -120,7 +122,7 @@ public class RecommendUI extends JPanel {
 					for(String p : problems){
 						addProblem(p);
 					}
-					recommendPanel.repaint();
+					recommendPanel.validate();
 				}
 			}
         });

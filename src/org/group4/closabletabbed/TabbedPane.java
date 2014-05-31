@@ -69,7 +69,7 @@ public class TabbedPane extends JPanel {
 	public TabbedPane() {
 		this(JTabbedPane.TOP);
 	}
-
+	
 	public TabbedPane(final int type) {
 	   	
 		pane = new JTabbedPane(type);

@@ -33,6 +33,7 @@ public class MyStepsUI extends javax.swing.JPanel {
     public MyStepsUI(String id) {
     	user = id;
         initComponents();
+        renewChart();
     }
 
     private void initComponents() {
@@ -78,7 +79,7 @@ public class MyStepsUI extends javax.swing.JPanel {
             String[] ids = new String[1];
             ids[0] = user;
     		chartPanel.add(BarGraph.createBarGraph(ids, startDate, endDate, "我的ACM STEPS"));
-            chartPanel.repaint();
+            chartPanel.validate();
     	}
     }
 

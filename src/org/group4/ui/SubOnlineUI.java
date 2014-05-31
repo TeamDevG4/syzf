@@ -6,17 +6,18 @@
 
 package org.group4.ui;
 
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
+
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import org.group4.util.HttpUtil;
 
 
@@ -24,7 +25,7 @@ import org.group4.util.HttpUtil;
  *
  * @author Kam
  */
-public class SubOnlineUI extends javax.swing.JPanel {
+public class SubOnlineUI extends JDialog {
     private javax.swing.JLabel input;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -61,17 +62,17 @@ public class SubOnlineUI extends javax.swing.JPanel {
      * Creates new form RecommendUI
      */
     public SubOnlineUI() {
-        
-           initComponents();
-       
+    	super(MainFrame.getInstance(), "在线提交");
+    	setSize(700, 800);
+    	initComponents();
     }
     
     public String getProID(){
         return proID;
     }
-    public void askForProID(){
-        proID = JOptionPane.showInputDialog(SubOnlineUI.this, "请输入题目ID");
-        //System.out.println(proID);
+    public void setProID(String id){
+    	proID = id;
+        System.out.println(proID);
         try {
             map = HttpUtil.getProInfo(proID);
             } 
@@ -175,7 +176,7 @@ public class SubOnlineUI extends javax.swing.JPanel {
         changePro.setText("换题");
         changePro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                askForProID();
+       //         askForProID();
             }
 
            
@@ -264,8 +265,8 @@ public class SubOnlineUI extends javax.swing.JPanel {
         );
         
         
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 800, Short.MAX_VALUE)
