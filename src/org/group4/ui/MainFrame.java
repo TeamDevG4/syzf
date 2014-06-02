@@ -91,16 +91,18 @@ public class MainFrame extends JFrame {
 		accountMenu.add(addNewAccount);
 		menuBar.add(accountMenu);
 		toolMenu = new JMenu("工具");
+		toolMenu.addChangeListener(new DetectUserStatusListener());
 		addTypes = new JMenuItem("添加类型");
 		addTypes.addActionListener(new AddTypesListener());
 		exploreHDU = new JMenuItem("刷题去");
 		exploreHDU.addActionListener(new ExploreHDUListener());
-		switchDiffBox = new JMenuItem("从对比盒子中添加或删除");
+		switchDiffBox = new JMenuItem("从对比盒子中添加");
+		switchDiffBox.addActionListener(new SwitchDiffBoxListener());
 		showDiffBox = new JMenuItem("显示对比盒子");
 		showDiffBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				diffBox.setVisible(true);
+				diffBox.show();
 			}
 		});
 		toolMenu.add(addTypes);
@@ -221,9 +223,27 @@ public class MainFrame extends JFrame {
 				if(diffBox.contains(panel.getUserID())){
 					diffBox.delUser(panel.getUserID());
 				}else{
+					System.out.println("getUser = " + panel.getUserID());
 					diffBox.addUser(panel.getUserID());
 				}
 			}
 		}
 	}
+	
+    private class DetectUserStatusListener implements ChangeListener{
+		@Override
+		public void stateChanged(ChangeEvent evt) {
+			UserFunctionPanel panel = (UserFunctionPanel)closableTabbedPane.getSelectedComponent();
+    		if(panel != null){
+    			switchDiffBox.setForeground(Color.BLACK);
+    			if(diffBox.contains(panel.getUserID())){
+    				switchDiffBox.setText("从对比盒子中删除");
+    			}else{
+    				switchDiffBox.setText("从对比盒子中添加");
+    			}
+    		}else{
+    			switchDiffBox.setForeground(Color.GRAY);
+    		}
+		}
+    }
 }

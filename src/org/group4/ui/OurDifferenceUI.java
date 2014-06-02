@@ -32,24 +32,29 @@ public class OurDifferenceUI extends JDialog {
      */
     public OurDifferenceUI() {
     	super(MainFrame.getInstance());
+    	users = new Vector<String>();
         initComponents();
+        setSize(800, 600);
+        setLocationRelativeTo(MainFrame.getInstance());
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
     
     private void renewChart(){
         chartPanel.removeAll();
-        chartPanel.add(LineChart.createDifferenceLineChart((String[])users.toArray(), "解决问题数的对比"));
+        String ids[] = new String[users.size()];
+        chartPanel.add(LineChart.createDifferenceLineChart(users.toArray(ids), "解决问题数的对比"));
     }
     
     @SuppressWarnings("deprecation")
 	public void show(){
     	super.show();
     	renewChart();
+    	validate();
     }
     
     public void addUser(String id){
     	if(!users.contains(id)){
     		users.add(id);
-    		renewChart();
     	}
     }
     
@@ -60,7 +65,6 @@ public class OurDifferenceUI extends JDialog {
     public void delUser(String id){
     	if(users.contains(id)){
     		users.remove(id);
-    		renewChart();
     	}
     }
     
@@ -86,11 +90,13 @@ public class OurDifferenceUI extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			chartPanel.removeAll();
+			String ids[] = new String[users.size()];
 	        if(evt.getSource() == switchLineChartButton){
-	            chartPanel.add(LineChart.createDifferenceLineChart((String[])users.toArray(), "解决问题数的对比"));
+	            chartPanel.add(LineChart.createDifferenceLineChart(users.toArray(ids), "解决问题数的对比"));
 	        }else{
-	            chartPanel.add(BarGraph.createDifferenceBarGraph((String[])users.toArray(), "我们各类题目解题数的差距"));
+	            chartPanel.add(BarGraph.createDifferenceBarGraph(users.toArray(ids), "我们各类题目解题数的差距"));
 	        }
+	        validate();
 		}
     }
     
