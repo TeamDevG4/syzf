@@ -37,11 +37,12 @@ public class AddTypesDialog extends JDialog{
     
     private JButton importFromFileButton, saveButton, addButton;
     private JTextField probNumField, newType;
-    private JComboBox combobox;
+    private JComboBox<String> combobox;
     private JLabel numLabel, typeLabel;
     private Container container;
 
     public AddTypesDialog(){
+    	super(MainFrame.getInstance(), true);
         initComp();
         setSize(400,116);
         setResizable(false);
@@ -67,7 +68,7 @@ public class AddTypesDialog extends JDialog{
         probPanel.add(addButton);
         typeLabel = new JLabel("选择或输入类型：");
         newType = new JTextField();
-        combobox = new JComboBox();
+        combobox = new JComboBox<String>();
         probPanel.add(typeLabel);
         probPanel.add(newType);
         probPanel.add(combobox);

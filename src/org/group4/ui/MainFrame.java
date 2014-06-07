@@ -102,7 +102,7 @@ public class MainFrame extends JFrame {
 		showDiffBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				diffBox.show();
+				diffBox.setVisible(true);
 			}
 		});
 		toolMenu.add(addTypes);
@@ -189,7 +189,7 @@ public class MainFrame extends JFrame {
 	private class AddTypesListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			new AddTypesDialog().show();
+			new AddTypesDialog().setVisible(true);
 		}
 	}
 	
@@ -235,14 +235,14 @@ public class MainFrame extends JFrame {
 		public void stateChanged(ChangeEvent evt) {
 			UserFunctionPanel panel = (UserFunctionPanel)closableTabbedPane.getSelectedComponent();
     		if(panel != null){
-    			switchDiffBox.setForeground(Color.BLACK);
+    			switchDiffBox.setEnabled(true);
     			if(diffBox.contains(panel.getUserID())){
     				switchDiffBox.setText("从对比盒子中删除");
     			}else{
     				switchDiffBox.setText("从对比盒子中添加");
     			}
     		}else{
-    			switchDiffBox.setForeground(Color.GRAY);
+    			switchDiffBox.setEnabled(false);
     		}
 		}
     }

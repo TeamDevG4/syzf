@@ -31,7 +31,7 @@ public class OurDifferenceUI extends JDialog {
      * Creates new form OurDifferenceUI
      */
     public OurDifferenceUI() {
-    	super(MainFrame.getInstance());
+    	super(MainFrame.getInstance(), true);
     	users = new Vector<String>();
         initComponents();
         setSize(800, 600);
@@ -40,16 +40,21 @@ public class OurDifferenceUI extends JDialog {
     }
     
     private void renewChart(){
-        chartPanel.removeAll();
+    	if(chartPanel.getComponentCount() != 0){
+    		chartPanel.removeAll();
+    		System.out.println("remove");
+    	}
         String ids[] = new String[users.size()];
         chartPanel.add(LineChart.createDifferenceLineChart(users.toArray(ids), "解决问题数的对比"));
     }
     
-    @SuppressWarnings("deprecation")
-	public void show(){
-    	super.show();
-    	renewChart();
-    	validate();
+    public void setVisible(boolean visible){
+    	System.out.println("setVisible(" + visible + ")");
+    	if(visible){
+    		renewChart();
+    		validate();
+    	}
+    	super.setVisible(visible);
     }
     
     public void addUser(String id){
