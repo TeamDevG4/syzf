@@ -96,7 +96,7 @@ public class MainFrame extends JFrame {
 		addTypes.addActionListener(new AddTypesListener());
 		exploreHDU = new JMenuItem("刷题去");
 		exploreHDU.addActionListener(new ExploreHDUListener());
-		switchDiffBox = new JMenuItem("从对比盒子中添加");
+		switchDiffBox = new JMenuItem("在对比盒子中添加");
 		switchDiffBox.addActionListener(new SwitchDiffBoxListener());
 		showDiffBox = new JMenuItem("显示对比盒子");
 		showDiffBox.addActionListener(new ActionListener(){
@@ -237,9 +237,9 @@ public class MainFrame extends JFrame {
     		if(panel != null){
     			switchDiffBox.setEnabled(true);
     			if(diffBox.contains(panel.getUserID())){
-    				switchDiffBox.setText("从对比盒子中删除");
+    				switchDiffBox.setText("在对比盒子中删除");
     			}else{
-    				switchDiffBox.setText("从对比盒子中添加");
+    				switchDiffBox.setText("在对比盒子中添加");
     			}
     		}else{
     			switchDiffBox.setEnabled(false);

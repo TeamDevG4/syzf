@@ -49,7 +49,6 @@ public class OurDifferenceUI extends JDialog {
     }
     
     public void setVisible(boolean visible){
-    	System.out.println("setVisible(" + visible + ")");
     	if(visible){
     		renewChart();
     		validate();

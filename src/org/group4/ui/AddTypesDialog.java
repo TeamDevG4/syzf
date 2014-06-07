@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -27,6 +28,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import org.group4.util.FileUtil;
 
 /**
@@ -35,7 +37,7 @@ import org.group4.util.FileUtil;
  */
 public class AddTypesDialog extends JDialog{
     
-    private JButton importFromFileButton, saveButton, addButton;
+    private JButton importFromFileButton, exportToFileButton, saveButton, addButton;
     private JTextField probNumField, newType;
     private JComboBox<String> combobox;
     private JLabel numLabel, typeLabel;
@@ -52,10 +54,12 @@ public class AddTypesDialog extends JDialog{
     private void initComp(){
         container = getContentPane();
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1,2));
+        buttonPanel.setLayout(new GridLayout(1,3));
         importFromFileButton = new JButton("从文件导入");
+        exportToFileButton = new JButton("导出到文件");
         saveButton = new JButton("保存");
         buttonPanel.add(importFromFileButton);
+        buttonPanel.add(exportToFileButton);
         buttonPanel.add(saveButton);
         container.add(buttonPanel, BorderLayout.NORTH);
         JPanel probPanel = new JPanel();
@@ -136,6 +140,15 @@ public class AddTypesDialog extends JDialog{
                     Logger.getLogger(AddTypesDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        });
+        exportToFileButton.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e){
+        		JFileChooser chooser = new JFileChooser();
+        		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);//设置只能选择目录
+        		chooser.showOpenDialog(AddTypesDialog.this);
+        		File dir = chooser.getSelectedFile();
+        		FileUtil.copyProblemTypeFile(dir);
+        	}
         });
     }
 }
