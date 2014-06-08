@@ -12,12 +12,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JPanel;
+
+import org.group4.util.FileUtil;
 
 /**
  *
@@ -42,14 +46,15 @@ public class MyAchievementUI extends JPanel {
 
     //添加成就条目
     public void update(){
-    	int h = AchievementAccessment.MyHighligthOfAC(user) / 100;
+    	AchievementAccessment accessment = new AchievementAccessment();
+    	int h = accessment.MyHighligthOfAC(user) / 100;
     	if(h != 0)
     		add(new AchievementItem("A题大师","累计已解决超过" + h + "百题"));
-    	Vector<String> vec = AchievementAccessment.MyHighligthOfUnremitting(user);
+    	Vector<String> vec = accessment.MyHighligthOfUnremitting(user);
     	if(vec != null){
     		add(new AchievementItem("屡败屡战","总有一些题，你刷，还是不刷，它就在那里，不能解决"));
     	}
-    	vec = AchievementAccessment.MyHighligthOfACFirsttime(user);
+    	vec = accessment.MyHighligthOfACFirsttime(user);
     	if(vec != null){
     		add(new AchievementItem("一次通过","1A有时很简单，你也试过"));
     	}
@@ -65,34 +70,16 @@ public class MyAchievementUI extends JPanel {
         setOpaque(false);
     }// </editor-fold>//GEN-END:initComponents
 
-    private static class AchievementAccessment{
+    private class AchievementAccessment{
     	//AC的题目达到一定数量
-    	public static int MyHighligthOfAC(String id){
-    		BufferedReader br = null;
-    		try {			
-                br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
-                String s,parts[];
-    			int retAC = 0;
-                while((s = br.readLine()) != null){
-                    parts = s.split(" |\t");
-    				if(parts[3].equals("Accepted")){
-    					retAC++;
-    				}
-                }
-    			br.close();
-    			return retAC;
-                
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(AchievementAccessment.class.getName()).log(Level.SEVERE, null, ex);
-            } finally{
-            	
-            }
-    		return -1;
+    	public int MyHighligthOfAC(String id){
+			Date startDate = FileUtil.getFirstDate(user);
+			Date endDate = FileUtil.getLastDate(user);
+			int[] v = FileUtil.countUserSubmission(user, startDate, endDate, "Accepted", true);
+			return v[v.length - 1];
     	}
     	//屡战屡败的题目（同一道题，提交数量超过10次，仍然未AC）
-    	public static Vector<String> MyHighligthOfUnremitting(String id){
+    	public Vector<String> MyHighligthOfUnremitting(String id){
     		BufferedReader br = null;
     		try {
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
@@ -135,7 +122,7 @@ public class MyAchievementUI extends JPanel {
     		return null;
     	}
     	//第一次提交AC的题目
-    	public static Vector<String> MyHighligthOfACFirsttime(String id){
+    	public Vector<String> MyHighligthOfACFirsttime(String id){
     		BufferedReader br = null;
     		try {
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
