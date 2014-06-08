@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -42,7 +43,7 @@ public class MyHistoryUI extends javax.swing.JPanel {
     	}else{
     		chartPanel.removeAll();
             chartPanel.add(LineChart.createAcceptedLineChart(user, startDate, endDate, "我的ACM之路"));
-            chartPanel.validate();
+            validate();
     	}
     }
 
@@ -53,12 +54,9 @@ public class MyHistoryUI extends javax.swing.JPanel {
         setLayout(new BorderLayout());
         buttonPanel.setLayout(new GridLayout(1,2));
 		sdp = new DatePanel(startDate = FileUtil.getFirstDate(user));
-		
         edp = new DatePanel(endDate = FileUtil.getLastDate(user));
-
         buttonPanel.add(sdp);
         buttonPanel.add(edp);
-        
         add(buttonPanel, BorderLayout.NORTH);
         
         chartPanel.setLayout(new GridLayout(1,1));

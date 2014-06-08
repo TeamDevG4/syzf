@@ -138,13 +138,13 @@ public class FileUtil {
             while((s = br.readLine()) != null){
                 parts = s.split(" |\t");
 				dateOfSubmission = sdf.parse(parts[1]);
-				if(dateOfSubmission.before(startDate) && status.equals(parts[3])){
+				if(before(dateOfSubmission, startDate) && status.equals(parts[3])){
 					if(!onlyOnce || !counted[Integer.valueOf(parts[0]) - 1000]){
 						ret[0]++;
 					}
 					counted[Integer.valueOf(parts[0]) - 1000] = true;
 				}
-				if(dateOfSubmission.before(startDate) || dateOfSubmission.after(endDate) || !status.equals(parts[3]))continue;
+				if(before(dateOfSubmission, startDate) || after(dateOfSubmission, endDate) || !status.equals(parts[3]))continue;
 				if(!onlyOnce || !counted[Integer.valueOf(parts[0]) - 1000]){
 					ret[hash(dateOfSubmission, startDate)]++;
 				}
@@ -168,6 +168,14 @@ public class FileUtil {
 		return null;
 	}
 
+	private static boolean before(Date a, Date b){
+		return a.getYear() < b.getYear() || (a.getYear() == b.getYear() && a.getMonth() < b.getMonth());
+	}
+	
+	private static boolean after(Date a, Date b){
+		return a.getYear() > b.getYear() || (a.getYear() == b.getYear() && a.getMonth() > b.getMonth());
+	}
+	
 	public static Date getFirstDate(String id){
 		try {
 			String s = readLastLine(new File(id + "_problems.txt"), "UTF-8");
