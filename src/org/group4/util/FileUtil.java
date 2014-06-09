@@ -20,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
@@ -179,9 +180,14 @@ public class FileUtil {
 	public static Date getFirstDate(String id){
 		try {
 			String s = readLastLine(new File(id + "_problems.txt"), "UTF-8");
+			if(s.equals("")){
+				return Calendar.getInstance().getTime();
+			}
 			String[] parts = s.split(" |\t");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			return sdf.parse(parts[1]);
+			Date date = sdf.parse(parts[1]);
+			date.setMonth(date.getMonth() - 1);
+			return date;
 		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -193,11 +199,14 @@ public class FileUtil {
 		BufferedReader br = null;
         try {
             br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt"), "UTF-8"));
-            String s, parts[];
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date dateOfSubmission;
-            s = br.readLine();
-            parts = s.split(" |\t");
+            String s = br.readLine();
+            if(s == null){
+            	br.close();
+            	return Calendar.getInstance().getTime();
+            }
+            String[] parts = s.split(" |\t");
             dateOfSubmission = sdf.parse(parts[1]);
             br.close();
             return dateOfSubmission;
