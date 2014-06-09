@@ -1,5 +1,6 @@
 package org.group4.ui;
 
+import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 

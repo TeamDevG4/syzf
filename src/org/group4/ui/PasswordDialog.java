@@ -21,6 +21,11 @@ public class PasswordDialog extends JDialog{
 	private void initComponents(){
 		getContentPane().setLayout(new FlowLayout());
 		pf = new JPasswordField(30);
+		pf.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt){
+				PasswordDialog.this.setVisible(false);
+			}
+		});
 		confirmButton = new JButton("确定");
 		getContentPane().add(pf);
 		getContentPane().add(confirmButton);
