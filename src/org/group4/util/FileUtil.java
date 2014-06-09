@@ -36,7 +36,7 @@ public class FileUtil {
     public static Vector<String> getAllTypes(String path){
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
             String s;
             Vector<String> ret = new Vector<>();
             while((s = br.readLine()) != null){
@@ -58,7 +58,7 @@ public class FileUtil {
     public static String[] getProbsOfType(String path, String type){
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
             String s, probs[] = null;
             int k;
             while((s = br.readLine()) != null){
@@ -83,8 +83,8 @@ public class FileUtil {
         BufferedReader br = null;
         BufferedWriter bw = null;
         try {
-            br = new BufferedReader(new InputStreamReader(new FileInputStream("problemType.txt")));
-            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("temp.txt")));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream("problemType.txt"), "UTF-8"));
+            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("temp.txt"), "UTF-8"));
             String s;
             int k;
             while((s = br.readLine()) != null){
@@ -130,7 +130,7 @@ public class FileUtil {
         BufferedReader br = null;
         try {
         	boolean counted[] = new boolean[4000];
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt"), "UTF-8"));
             String s, parts[];
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             int[] ret = new int[hash(endDate, startDate) + 1];
@@ -192,7 +192,7 @@ public class FileUtil {
 	public static Date getLastDate(String id){
 		BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt"), "UTF-8"));
             String s, parts[];
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date dateOfSubmission;
@@ -270,7 +270,7 @@ public class FileUtil {
 		BufferedReader br = null;
         try {
         	boolean counted[] = new boolean[4000];
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt")));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(id + "_problems.txt"), "UTF-8"));
             String s, parts[];
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date dateOfSubmission;
@@ -322,7 +322,7 @@ public class FileUtil {
 		Map<String, String> probType = new TreeMap<>();
 		BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(new FileInputStream("problemType.txt")));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream("problemType.txt"), "UTF-8"));
             String s, parts[], type;
             while((s = br.readLine()) != null){
             	int k = s.indexOf(':');
@@ -355,7 +355,7 @@ public class FileUtil {
 		BufferedReader br = null;
 		Vector<String> ret = new Vector<>();
         try {
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(userID + "_proList.txt")));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(userID + "_proList.txt"), "UTF-8"));
             String s, parts[];
             while((s = br.readLine()) != null){
             	parts = s.split(" |\t");
