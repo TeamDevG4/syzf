@@ -157,11 +157,24 @@ public class HttpUtil extends Thread{
 		String url="http://acm.hdu.edu.cn/showproblem.php?pid="+ProID;
 		String proHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");	
 		proHtml=proHtml.replaceAll("\n", "<br>");
+		
+		
 		String proRegex="<tr><td align=center>(.+)<a href=\'statistic.php";		
 		Pattern proPattern=Pattern.compile(proRegex);		
 		Matcher proMatcher=proPattern.matcher(proHtml);	
 		if(proMatcher.find())
 			proInfo=proMatcher.group(1);
+		
+		String imageRegex = "img(.{0,20})/data/images/(\\d{0,5}-\\d{0,2}.\\w{0,5})>";
+		Pattern imagePattern=Pattern.compile(imageRegex);		
+		Matcher imageMatcher=imagePattern.matcher(proHtml);
+		while(imageMatcher.find()){
+			String imageBefore=imageMatcher.group(2);
+			String imageAfter = "<img src=\"http://acm.hdu.edu.cn/data/images/"+imageBefore+"\">";
+			proInfo=proInfo.replaceAll(imageRegex, imageAfter);
+		}
+		System.out.println(proInfo);
+
 		return proInfo;	
 	}
 }

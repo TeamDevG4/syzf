@@ -1,5 +1,7 @@
 package org.group4.ui;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,10 +25,11 @@ public class SubOnlineUI extends javax.swing.JDialog {
     String problem;
     private String usercode;
     private static Map<String, String> passwordMem = new HashMap<String, String>();
-
+    private GridBagLayout layout;
+    
     public SubOnlineUI(String user) {
     	super(MainFrame.getInstance(), "在线提交", true);
-    	setSize(800, 600);
+    	setSize(800,600);
     	setLocationRelativeTo(MainFrame.getInstance());
         userID = user;
     	initComponents();
@@ -38,24 +41,24 @@ public class SubOnlineUI extends javax.swing.JDialog {
         renewPanel();
     }
     private void renewPanel(){
-		problemEditorPane.setText(problem);
+		problemEditorPane.setText(problem);;
     }
     
     public void initComponents() {
         
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        problemEditorPane = new javax.swing.JEditorPane();
-        problemEditorPane.setContentType("text/html;charset=GBK");
-        problemEditorPane.setEditable(false);
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+		jLabel1 = new javax.swing.JLabel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		problemEditorPane = new javax.swing.JEditorPane();
+		problemEditorPane.setContentType("text/html");
+		problemEditorPane.setEditable(false);
+		jScrollPane2 = new javax.swing.JScrollPane();
+		jTextArea2 = new javax.swing.JTextArea();
+		jComboBox1 = new javax.swing.JComboBox();
+		jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("微软雅黑", 1, 24)); // NOI18N
         jLabel1.setText("Problem");
-        
+
         jScrollPane1.setViewportView(problemEditorPane);
         
         jTextArea2.setLineWrap(true);
@@ -86,17 +89,17 @@ public class SubOnlineUI extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,11 +113,13 @@ public class SubOnlineUI extends javax.swing.JDialog {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(7, 7, 7)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
         pack();
         
+
     }
     private void submitActionPerformed(java.awt.event.ActionEvent evt) { 
         usercode=jTextArea2.getText();
