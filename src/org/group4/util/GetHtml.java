@@ -63,7 +63,7 @@ public class GetHtml{
 			return result;
 		}
 	}
-	private static String ConverterStringCode(String src, String srcEncode, String destEncode) {
+	static String ConverterStringCode(String src, String srcEncode, String destEncode) {
 		if (src != null) {
 			try {
 				return new String(src.getBytes(srcEncode), destEncode);

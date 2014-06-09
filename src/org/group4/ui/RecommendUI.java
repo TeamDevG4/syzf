@@ -71,9 +71,9 @@ public class RecommendUI extends JPanel {
     		super(txt);
     		addMouseListener(new MouseAdapter(){
     			public void mouseClicked(MouseEvent evt){
-    				SubOnlineUI subOnline = new SubOnlineUI();
+    				SubOnlineUI subOnline = new SubOnlineUI(user);
     				subOnline.setProID(txt);
-    				subOnline.show();
+    				subOnline.setVisible(true);
     			}
     		});
     	}
