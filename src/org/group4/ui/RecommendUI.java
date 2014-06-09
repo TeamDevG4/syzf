@@ -122,7 +122,8 @@ public class RecommendUI extends JPanel {
 					for(String p : problems){
 						addProblem(p);
 					}
-					recommendPanel.validate();
+					validate();
+					repaint();
 				}
 			}
         });

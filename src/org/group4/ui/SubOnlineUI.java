@@ -1,6 +1,5 @@
 package org.group4.ui;
 
-import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,10 +34,11 @@ public class SubOnlineUI extends javax.swing.JDialog {
     public void setProID(String id){
     	proID = id;
         problem = HttpUtil.getProInfo(proID);
+        jLabel1.setText("Problem" + id);
         renewPanel();
     }
     private void renewPanel(){
-        problemEditorPane.setText(problem);
+		problemEditorPane.setText(problem);
     }
     
     public void initComponents() {
@@ -46,7 +46,7 @@ public class SubOnlineUI extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         problemEditorPane = new javax.swing.JEditorPane();
-        problemEditorPane.setContentType("text/html; charset=gb2312");
+        problemEditorPane.setContentType("text/html;charset=GBK");
         problemEditorPane.setEditable(false);
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();

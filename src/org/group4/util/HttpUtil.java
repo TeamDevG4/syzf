@@ -19,7 +19,7 @@ public class HttpUtil extends Thread{
     }
     public static boolean judgeID(){
     	String url="http://acm.hdu.edu.cn/userstatus.php?user="+username;
-    	String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"utf8");
+    	String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");
     	String userRegex="<DIV>No such user.";
     	Pattern userPattern=Pattern.compile(userRegex);
     	Matcher userMatcher=userPattern.matcher(inputHtml);	
@@ -89,7 +89,7 @@ public class HttpUtil extends Thread{
 			}else{
 				urlForLoop="http://acm.hdu.edu.cn"+nextUrl;
 			}
-			inputHtml=GetHtml.getGetResponseWithHttpClient(urlForLoop,"utf8");
+			inputHtml=GetHtml.getGetResponseWithHttpClient(urlForLoop,"GBK");
 
 			timeMatcher=timePattern.matcher(inputHtml);
 			statusMatcher=statusPattern.matcher(inputHtml);
@@ -116,7 +116,7 @@ public class HttpUtil extends Thread{
 						new FileOutputStream(
 								new File(username+"_proList.txt"))));
 		String url="http://acm.hdu.edu.cn/userstatus.php?user="+username;
-		String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"utf8");
+		String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");
 		String proRegex="(\\d+),(\\d+),(\\d+)";
 		Pattern proPattern=Pattern.compile(proRegex);
 		Matcher proMatcher=proPattern.matcher(inputHtml);
@@ -131,7 +131,7 @@ public class HttpUtil extends Thread{
 	//获取用户的rank以及submitted, solved, submissions, accepted的题目数
 	public static User analyseUserBaseInfo(String username) throws IOException{
 		String url="http://acm.hdu.edu.cn/userstatus.php?user="+username;
-		String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"utf8");
+		String inputHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");
 		String userInfoRegex="<tr><td>Rank</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Problems Submitted</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Problems Solved</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Submissions</td><td align=center>(\\d+)</td></tr>\\s+<tr><td>Accepted</td><td align=center>(\\d+)</td></tr>";
 		Pattern userInfoPattern=Pattern.compile(userInfoRegex);
 		Matcher userInfoMatcher=userInfoPattern.matcher(inputHtml);
@@ -155,7 +155,7 @@ public class HttpUtil extends Thread{
 	public static String getProInfo(String ProID){
 		String proInfo=null;
 		String url="http://acm.hdu.edu.cn/showproblem.php?pid="+ProID;
-		String proHtml=GetHtml.getGetResponseWithHttpClient(url,"utf8");	
+		String proHtml=GetHtml.getGetResponseWithHttpClient(url,"GBK");	
 		proHtml=proHtml.replaceAll("\n", "<br>");
 		String proRegex="<tr><td align=center>(.+)<a href=\'statistic.php";		
 		Pattern proPattern=Pattern.compile(proRegex);		
